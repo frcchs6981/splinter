@@ -32,8 +32,8 @@ public class Robot extends TimedRobot {
   SparkMax m_GrabberR;
  // SparkMax AmpArm;
 
-  SparkMaxConfig c_launchWheel;
-  SparkMaxConfig c_feedWheel; 
+  SparkMaxConfig c_launchWheel = new SparkMaxConfig();
+  SparkMaxConfig c_feedWheel = new SparkMaxConfig(); 
   //SparkMaxConfig c_GrabberL;
   //SparkMaxConfig c_GrabberR;
   //SparkMaxConfig c_AmpArm;

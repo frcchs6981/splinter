@@ -125,12 +125,34 @@ public class Robot extends TimedRobot {
     else if(timer.get() < 3) {m_myRobot1.tankDrive(0,0); m_myRobot2.tankDrive(0,0); AmpArm.set(0.5);}*/
 
     /* AutoCode SPEAK */
-    if(timer.get() < 3) {
+   /*if(timer.get() < 3) {
       m_feedWheel.set(1); 
       if (timer.get() > 1) {m_launchWheel.set(1);}}
     else if (timer.get() < 7) {m_myRobot1.tankDrive(-0.5, -0.5); m_myRobot2.tankDrive(-0.5, -0.5);}
-    else if (timer.get() < 8) {m_myRobot1.tankDrive(0, 0); m_myRobot2.tankDrive(0, 0);m_launchWheel.set(0);m_feedWheel.set(0); }
+    else if (timer.get() < 8) {m_myRobot1.tankDrive(0, 0); m_myRobot2.tankDrive(0, 0);m_launchWheel.set(0);m_feedWheel.set(0); }*/
 
+    /* Wiggle for da fall fest L=1 R=1 (on rep)*/
+    if((int)(timer.get() % 2) == 0) {
+      //left//
+      m_myRobot1.tankDrive(0.5, -0.5);
+      m_myRobot2.tankDrive(0.5, -0.5);
+    } else {
+      //right//
+      m_myRobot1.tankDrive(-0.5, 0.5);
+      m_myRobot2.tankDrive(-0.5, 0.5);
+    }
+    //Rando SG(1/50 every loop)//
+    if (Math.random() < 0.02) {
+
+      //ST SG//
+      m_feedWheel.set(1);
+      if(timer.get() < 1) 
+      { m_launchWheel.set(1);}
+    } else {
+      //SP SG//
+      m_feedWheel.set(0);
+      m_launchWheel.set(0);
+    }
 
     /* Testing */
     /*if(timer.get() < 0.5) {m_myRobot1.tankDrive(-0.6,-0.8); m_myRobot2.tankDrive(-0.8,-0.8); }

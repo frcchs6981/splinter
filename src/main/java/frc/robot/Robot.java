@@ -118,7 +118,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     timer.reset();
     timer.start();
-    G = (int)(1+(Math.random()*5));
+    G = (int)(3+(Math.random()*4));
+    
     if(timer.get() == 15){timer.reset();}
   }
   @Override
@@ -134,24 +135,21 @@ public class Robot extends TimedRobot {
       if (timer.get() > 1) {m_launchWheel.set(1);}}
     else if (timer.get() < 7) {m_myRobot1.tankDrive(-0.5, -0.5); m_myRobot2.tankDrive(-0.5, -0.5);}
     else if (timer.get() < 8) {m_myRobot1.tankDrive(0, 0); m_myRobot2.tankDrive(0, 0);m_launchWheel.set(0);m_feedWheel.set(0); }*/
-    double turbo = 1;
+    double turbo = 0.56;
+    double mult = 1.2;
     /* Wiggle for da fall fest L=1 R=1 (on rep)*/
-    int Dpad = (int)((timer.get()%2));
+    int Dpad = (int)(((timer.get())%2));
     System.out.println(Dpad);
-    if(Dpad == 90){m_myRobot1.tankDrive(turbo,-turbo); m_myRobot2.tankDrive(turbo,-turbo);}
-    else if(Dpad == 270){m_myRobot1.tankDrive(-turbo,turbo); m_myRobot2.tankDrive(-turbo,turbo);}
-    else if(Dpad == 0) {m_myRobot1.tankDrive(turbo,turbo); m_myRobot2.tankDrive(turbo,turbo);}
-    else if(Dpad == 180) {m_myRobot1.tankDrive(-turbo,-turbo); m_myRobot2.tankDrive(-turbo,-turbo);}
+    if(Dpad == 1 && timer.get() < G){m_myRobot1.tankDrive(mult*turbo,-turbo); m_myRobot2.tankDrive(mult*turbo,-turbo);}
+    else if(Dpad == 0 && timer.get() < G){m_myRobot1.tankDrive(mult*-turbo,turbo); m_myRobot2.tankDrive(mult*-turbo,turbo);}
     else{
-          double speed1 = ControlHandlerD.getRawAxis(1)*turbo;
-          double speed2 = ControlHandlerD.getRawAxis(5)*turbo;
-          m_myRobot1.tankDrive(speed1, speed2); m_myRobot2.tankDrive(speed1, speed2);
+          m_myRobot1.tankDrive(0, 0); m_myRobot2.tankDrive(0, 0);
         }
     //Rando SG(1/50 every loop)//
-    if (timer.get() > G && timer.get() < G+3) {
+    if (timer.get() > G && timer.get() < G+1.5) {
       //ST SG//
       m_feedWheel.set(1);
-      if(timer.get() > G+1) 
+      if(timer.get() > G+0.5) 
       { m_launchWheel.set(1);}
     } else {
       //SP SG//

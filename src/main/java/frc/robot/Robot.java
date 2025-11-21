@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
   private DifferentialDrive m_myRobot2 = new DifferentialDrive(m_leftMotor2,m_rightMotor2);
   private Timer timer = new Timer();
   private Timer delay = new Timer();
+  private int G = 0;
 
   SparkMax m_launchWheel;
   SparkMax m_feedWheel;
@@ -117,7 +118,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     timer.reset();
     timer.start();
-
+    G = (int)(1+(Math.random()*5));
     if(timer.get() == 15){timer.reset();}
   }
   @Override
@@ -133,23 +134,24 @@ public class Robot extends TimedRobot {
       if (timer.get() > 1) {m_launchWheel.set(1);}}
     else if (timer.get() < 7) {m_myRobot1.tankDrive(-0.5, -0.5); m_myRobot2.tankDrive(-0.5, -0.5);}
     else if (timer.get() < 8) {m_myRobot1.tankDrive(0, 0); m_myRobot2.tankDrive(0, 0);m_launchWheel.set(0);m_feedWheel.set(0); }*/
-
+    double turbo = 1;
     /* Wiggle for da fall fest L=1 R=1 (on rep)*/
-    if((int)(timer.get() % 2) == 0) {
-      //left//
-      m_myRobot1.tankDrive(0.5, -0.5);
-      m_myRobot2.tankDrive(0.5, -0.5);
-    } else {
-      //right//
-      m_myRobot1.tankDrive(-0.5, 0.5);
-      m_myRobot2.tankDrive(-0.5, 0.5);
-    }
+    int Dpad = (int)((timer.get()%2));
+    System.out.println(Dpad);
+    if(Dpad == 90){m_myRobot1.tankDrive(turbo,-turbo); m_myRobot2.tankDrive(turbo,-turbo);}
+    else if(Dpad == 270){m_myRobot1.tankDrive(-turbo,turbo); m_myRobot2.tankDrive(-turbo,turbo);}
+    else if(Dpad == 0) {m_myRobot1.tankDrive(turbo,turbo); m_myRobot2.tankDrive(turbo,turbo);}
+    else if(Dpad == 180) {m_myRobot1.tankDrive(-turbo,-turbo); m_myRobot2.tankDrive(-turbo,-turbo);}
+    else{
+          double speed1 = ControlHandlerD.getRawAxis(1)*turbo;
+          double speed2 = ControlHandlerD.getRawAxis(5)*turbo;
+          m_myRobot1.tankDrive(speed1, speed2); m_myRobot2.tankDrive(speed1, speed2);
+        }
     //Rando SG(1/50 every loop)//
-    if (Math.random() < 0.02) {
-
+    if (timer.get() > G && timer.get() < G+3) {
       //ST SG//
       m_feedWheel.set(1);
-      if(timer.get() < 1) 
+      if(timer.get() > G+1) 
       { m_launchWheel.set(1);}
     } else {
       //SP SG//
